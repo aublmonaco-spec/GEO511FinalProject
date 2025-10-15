@@ -1,7 +1,7 @@
 ---
-title: "My Final Project Template"
-author: Your name here
-subtitle: Subtitle here if desired
+title: "Phenological Shifts in the Ruby-Throated Hummingbird and the Cardinal Flower"
+author: Aubrey Monaco
+subtitle: GEO511 Final Project
 date: today
 date-format: long
 ---
@@ -39,43 +39,54 @@ See <http://rmarkdown.rstudio.com/> for all the amazing things you can do.
 Here's my first code chunk.
 
 ```{r}
-x=3+4
-```
+#install.packages("leaflet")
+library(leaflet)
+library(ggplot2)
+library(dplyr)
+library(sf)
+library(spData)
+library(lubridate)
+getwd()
+cardinal_flower <- read.csv("cardinal_flower_nat.csv")
 
-Refer to output in your narrative like this: x=`r x` .
+world <- world
+
+us <- world[world$name_long == "United States", ]
+
+cardinal_flower <- cardinal_flower %>%
+  mutate(observed_on = parse_date_time(observed_on, orders = c("mdy", "ydm", "dmy"))) %>%
+  mutate(year = year(observed_on)) %>%
+  mutate(year_day = yday(observed_on))
+
+cf2010 <- cardinal_flower %>%
+  filter(year == 2010) %>%
+  mutate(year_day = yday(observed_on))
+
+cf2010 <- cf2010 %>%
+  mutate(cfmean2010 = mean(year_day, na.rm = TRUE)) 
+
+mean_card_fl <- full_join(cardinal_flower, cf2010) 
+
+mean_card_fl <- mean_card_fl %>%
+  mutate(cfmean2010 = ifelse(is.na(cfmean2010), 233.375, cfmean2010)) %>%
+  mutate(difference = year_day - cfmean2010)
+
+rth_1995_2021 <- read.csv("RTH_1995_2021.csv")
+rth_2022_2025 <- read.csv("RTH_2022_2025.csv")
+
+rth_all <- rth_1995_2021 %>% full_join(rth_2022_2025)
+
+ggplot() + geom_sf(data = us) + geom_point(data = mean_card_fl, aes(x = longitude, y = latitude, color = difference))
+ggplot() + geom_sf(data = us) + geom_point(data = rth_1995_2021, aes(x = Longitude, y = Latitude, color = Year)) + geom_point(data = rth_2022_2025, aes(x = Longitude, y = Latitude, color = Year)) 
+
+leaflet() %>%
+  addProviderTiles(provider = "Esri") %>%
+  addCircleMarkers(lng = mean_card_fl$longitude, lat = mean_card_fl$latitude, radius = 1)
+```
 
 Load any required packages in a code chunk (you may need to install some packages):
 
-```{r, message=F, warning=F}
-library(tidyverse)
-library(leaflet)
-library(kableExtra)
-library(htmlwidgets)
-library(widgetframe)
-knitr::opts_chunk$set(widgetframe_widgets_dir = 'widgets' ) 
-knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling
-```
-
 ## Download and clean all required data
-
-```{r}
-n=20
-data=data.frame(x=runif(n,-180,180),
-                y=runif(n,-60,60),
-                size = runif(n, 5, 20),
-                category = factor(
-                  sample(letters[1:5], n, replace = TRUE)
-                  ),
-                value = rnorm(n))
-```
-
-```{r, results='asis'}
-data %>% 
-  slice(1:10) %>% #show only 1:n rows
-  kable(digits=2,align="c")%>% #make table and round to two digits
-  kable_styling(bootstrap_options = 
-                  c("striped", "hover", "condensed", "responsive")) #apply other formatting
-```
 
 Add any additional processing steps here.
 
@@ -85,29 +96,9 @@ Add any additional processing steps here.
 
 Tables and figures (maps and other graphics) are carefully planned to convey the results of your analysis. Intense exploration and evidence of many trials and failures. The author looked at the data in many different ways before coming to the final presentation of the data.
 
-Show tables, plots, etc. and describe them.
-
-```{r, fig.width=6, fig.height=3, fig.cap="Map of completely random data"}
-m <- leaflet(data) %>% 
-  addTiles() %>% 
-  addCircleMarkers(~x, ~y, radius = ~size,color = ~as.factor(category)) %>% 
-  addPopups(~x[2], ~y[2], "Random popup")
-m  # a map with the default OSM tile layer
-```
-
-```{r}
-data %>% 
-  ggplot(aes(x=x,y=y,col=category))+
-  geom_point()
-```
+Show tables, plots, etc. and describe them.r
 
 ### Dygraphs Example
-
-```{r}
-library(dygraphs)
-dygraph(nhtemp, main = "New Haven Temperatures") |> 
-  dyRangeSelector(dateWindow = c("1920-01-01", "1960-01-01")) 
-```
 
 # Conclusions
 
