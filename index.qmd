@@ -7,11 +7,11 @@ date-format: long
 theme: morph
 ---
 
-# Introduction
+## Introduction
 
 With warming temperatures due to anthropogenic climate change, bird migration times are shifting, and they are tending to migrate back to their breeding grounds earlier each year. Conversely, flowers that certain migrating birds, like ruby-throated hummingbirds, may feed on may not be changing the time of their first bloom. Therefore, when birds that rely on flowers as food sources migrate back earlier, they may not have enough food to support them when they arrive. I want to investigate how a pollinating bird species, the Ruby-throated Hummingbird (Archilochus colubris), has been shifting its migration patterns and how the appearances of a species it prefers to feed on, the cardinal flower (Lobelia cardinalis), has changed (or not changed) over the past 15 years (~80 more words needed).
 
-# Materials and methods
+## Materials and Methods
 
 \[\~ 200 words\]
 
@@ -75,6 +75,24 @@ rth_2022_2025 <- read.csv("RTH_2022_2025.csv")
 
 rth_all <- rth_1995_2021 %>% full_join(rth_2022_2025)
 
+ruby_throat <- rth_all %>%
+  mutate(Date = parse_date_time(Date, orders = c("mdy", "ydm", "dmy"))) %>%
+  mutate(year = year(Date)) %>%
+  mutate(year_day = yday(Date))
+
+rth2010 <- ruby_throat %>%
+  filter(Year == 2010) %>%
+  mutate(year_day = yday(Date))
+
+rth2010 <- rth2010 %>%
+  mutate(rthmean2010 = mean(year_day, na.rm = TRUE)) 
+
+mean_ruby_throat <- full_join(ruby_throat, rth2010) 
+
+mean_ruby_throat <- mean_ruby_throat %>%
+  mutate(rthmean2010 = ifelse(is.na(rthmean2010), 200.4848, rthmean2010)) %>%
+  mutate(difference = year_day - rthmean2010)
+
 ggplot() + geom_sf(data = us) + geom_point(data = mean_card_fl, aes(x = longitude, y = latitude, color = difference))
 ggplot() + geom_sf(data = us) + geom_point(data = rth_1995_2021, aes(x = Longitude, y = Latitude, color = Year)) + geom_point(data = rth_2022_2025, aes(x = Longitude, y = Latitude, color = Year)) 
 
@@ -89,7 +107,7 @@ Load any required packages in a code chunk (you may need to install some package
 
 Add any additional processing steps here.
 
-# Results
+## Results
 
 \[\~200 words\]
 
@@ -99,12 +117,12 @@ Show tables, plots, etc. and describe them.r
 
 ### Dygraphs Example
 
-# Conclusions
+## Conclusions
 
 \[\~200 words\]
 
 Clear summary adequately describing the results and putting them in context. Discussion of further questions and ways to continue investigation.
 
-# References
+## References
 
 All sources are cited in a consistent manner
