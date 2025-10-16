@@ -94,11 +94,16 @@ mean_ruby_throat <- mean_ruby_throat %>%
   mutate(difference = year_day - rthmean2010)
 
 ggplot() + geom_sf(data = us) + geom_point(data = mean_card_fl, aes(x = longitude, y = latitude, color = difference))
-ggplot() + geom_sf(data = us) + geom_point(data = rth_1995_2021, aes(x = Longitude, y = Latitude, color = Year)) + geom_point(data = rth_2022_2025, aes(x = Longitude, y = Latitude, color = Year)) 
+
+ggplot() + geom_sf(data = us) + geom_point(data = mean_ruby_throat, aes(x = Longitude, y = Latitude, color = difference)) 
 
 leaflet() %>%
   addProviderTiles(provider = "Esri") %>%
   addCircleMarkers(lng = mean_card_fl$longitude, lat = mean_card_fl$latitude, radius = 1)
+
+leaflet() %>%
+  addProviderTiles(provider = "Esri") %>%
+  addCircleMarkers(lng = mean_ruby_throat$Longitude, lat = mean_ruby_throat$Latitude, radius = 1)
 ```
 
 Load any required packages in a code chunk (you may need to install some packages):
