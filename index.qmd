@@ -9,7 +9,7 @@ theme: morph
 
 ## Introduction
 
-With warming temperatures due to anthropogenic climate change, bird migration times are shifting, and they are tending to migrate back to their breeding grounds earlier each year. Conversely, flowers that certain migrating birds, like ruby-throated hummingbirds, may feed on may not be changing the time of their first bloom. Therefore, when birds that rely on flowers as food sources migrate back earlier, they may not have enough food to support them when they arrive. I want to investigate how a pollinating bird species, the Ruby-throated Hummingbird (Archilochus colubris), has been shifting its migration patterns and how the appearances of a species it prefers to feed on, the cardinal flower (Lobelia cardinalis), has changed (or not changed) over the past 15 years (~80 more words needed).
+With warming temperatures due to anthropogenic climate change, bird migration times are shifting, and they are tending to migrate back to their breeding grounds earlier each year. Conversely, flowers that certain migrating birds, like ruby-throated hummingbirds, may feed on may not be changing the time of their first bloom. Therefore, when birds that rely on flowers as food sources migrate back earlier, they may not have enough food to support them when they arrive. I want to investigate how a pollinating bird species, the Ruby-throated Hummingbird (Archilochus colubris), has been shifting its migration patterns and how the appearances of a species it prefers to feed on, the cardinal flower (Lobelia cardinalis), has changed (or not changed) over the past 15 years (\~80 more words needed).
 
 ## Materials and Methods
 
@@ -45,6 +45,8 @@ library(dplyr)
 library(sf)
 library(spData)
 library(lubridate)
+library(viridis)
+library(RColorBrewer)
 getwd()
 cardinal_flower <- read.csv("cardinal_flower_nat.csv")
 
@@ -97,13 +99,19 @@ ggplot() + geom_sf(data = us) + geom_point(data = mean_card_fl, aes(x = longitud
 
 ggplot() + geom_sf(data = us) + geom_point(data = mean_ruby_throat, aes(x = Longitude, y = Latitude, color = difference)) 
 
-leaflet() %>%
-  addProviderTiles(provider = "Esri") %>%
-  addCircleMarkers(lng = mean_card_fl$longitude, lat = mean_card_fl$latitude, radius = 1)
+cpal <- colorNumeric(palette = "Blues", domain = mean_card_fl$difference, na.color = "#080808")
 
-leaflet() %>%
+rpal <- colorNumeric(palette = "Reds", domain = mean_ruby_throat$difference, na.color = "#080808")
+
+leaflet(mean_card_fl) %>%
   addProviderTiles(provider = "Esri") %>%
-  addCircleMarkers(lng = mean_ruby_throat$Longitude, lat = mean_ruby_throat$Latitude, radius = 1)
+  addCircleMarkers(~longitude, ~latitude, color = ~cpal(difference), radius = 1) %>%
+  addLegend(pal = cpal, values = ~difference)
+
+leaflet(mean_ruby_throat) %>%
+  addProviderTiles(provider = "Esri") %>%
+  addCircleMarkers(~Longitude, ~Latitude, radius = 1, color = ~rpal(difference)) %>%
+  addLegend(pal = rpal, values = ~difference)
 ```
 
 Load any required packages in a code chunk (you may need to install some packages):
