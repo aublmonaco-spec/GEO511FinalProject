@@ -39,6 +39,7 @@ Here's my first code chunk.
 
 ```{r}
 #install.packages("leaflet")
+#install.packages("leaflet.extras")
 library(leaflet)
 library(ggplot2)
 library(dplyr)
@@ -48,6 +49,7 @@ library(lubridate)
 library(viridis)
 library(RColorBrewer)
 library(tidyr)
+library(leaflet.extras)
 getwd()
 cardinal_flower <- read.csv("cardinal_flower_nat.csv")
 
@@ -177,7 +179,7 @@ ggplot() + geom_sf(data = us) + geom_point(data = mean_card_fl, aes(x = longitud
 
 ggplot() + geom_sf(data = us) + geom_point(data = mean_ruby_throat, aes(x = Longitude, y = Latitude, color = difference)) 
 
-cpal <- colorNumeric(palette = "mako", domain = mean_card_fl$difference, na.color = NA, reverse = TRUE)
+cpal <- colorNumeric(palette = "mako", domain = mean_card_fl$difference, na.color = NA, reverse = FALSE)
 
 rpal <- colorNumeric(palette = "inferno", domain = mean_ruby_throat$difference, na.color = NA)
 
@@ -188,7 +190,7 @@ leaflet(mean_card_fl) %>%
 
 leaflet(mean_ruby_throat) %>%
   addProviderTiles(provider = "Esri") %>%
-  addCircleMarkers(~Longitude, ~Latitude, radius = 1, color = ~rpal(difference)) %>%
+  addCircleMarkers(~Longitude, ~Latitude, color = ~rpal(difference), radius = 1) %>%
   addLegend(pal = rpal, values = ~difference)
 ```
 
