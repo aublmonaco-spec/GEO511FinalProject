@@ -1,7 +1,7 @@
 ---
 title: "Phenological Shifts in the Ruby-Throated Hummingbird and the Cardinal Flower"
 author: Aubrey Monaco
-subtitle: GEO511 Final Project
+subtitle: "GEO511 Final Project"
 date: today
 date-format: long
 theme: morph
@@ -39,7 +39,6 @@ Here's my first code chunk.
 
 ```{r}
 #install.packages("leaflet")
-#install.packages("leaflet.extras")
 library(leaflet)
 library(ggplot2)
 library(dplyr)
@@ -49,7 +48,6 @@ library(lubridate)
 library(viridis)
 library(RColorBrewer)
 library(tidyr)
-library(leaflet.extras)
 getwd()
 cardinal_flower <- read.csv("cardinal_flower_nat.csv")
 
@@ -185,12 +183,12 @@ rpal <- colorNumeric(palette = "inferno", domain = mean_ruby_throat$difference, 
 
 leaflet(mean_card_fl) %>%
   addProviderTiles(provider = "Esri") %>%
-  addCircleMarkers(~longitude, ~latitude, color = ~cpal(difference), radius = 1) %>%
+  addPolylines(~longitude, ~ latitude, color = ~cpal(difference)) %>%
   addLegend(pal = cpal, values = ~difference)
 
 leaflet(mean_ruby_throat) %>%
   addProviderTiles(provider = "Esri") %>%
-  addCircleMarkers(~Longitude, ~Latitude, color = ~rpal(difference), radius = 1) %>%
+  addCircleMarkers(~Longitude, ~Latitude, radius = 1, color = ~rpal(difference)) %>%
   addLegend(pal = rpal, values = ~difference)
 ```
 

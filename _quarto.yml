@@ -1,7 +1,7 @@
 project:
   type: website
 
-website:
+website: Aubrey Monaco GEO511 Final Project
   title: "GEO 511 Final Project"
   navbar:
     left:
