@@ -218,11 +218,6 @@ Clear summary adequately describing the results and putting them in context. Dis
 
 All sources are cited in a consistent manner
 
-
-
-
-
-
 # Template Repository for Quarto Website
 
 This repository serves as a template for building a quarto website that is automatically rendered using GitHub Actions.
