@@ -2,7 +2,7 @@ project:
   type: website
   output-dir: .
 website:
-  title: "GEO511 Final Project"
+  title: "Shifts in the Ruby-Throated Hummingbird and the Cardinal Flower"
   navbar:
     left:
       - href: index.qmd
