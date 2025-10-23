@@ -2,6 +2,7 @@
 title: "Phenological Shifts in the Ruby-Throated Hummingbird and the Cardinal Flower"
 author: Aubrey Monaco
 subtitle: GEO511 Final Project
+format: html
 date: today
 date-format: long
 ---
