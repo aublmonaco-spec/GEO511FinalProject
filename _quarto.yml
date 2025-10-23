@@ -1,8 +1,8 @@
-project:
+Project:
   type: website
 
-website: Aubrey Monaco GEO511 Final Project
-  title: "GEO 511 Final Project"
+website:
+  title: "GEO511_FinalProject"
   navbar:
     left:
       - href: index.qmd
@@ -11,6 +11,6 @@ website: Aubrey Monaco GEO511 Final Project
 
 format:
   html:
-    theme: morph
+    theme: cosmo
     includes:
         after_body: include/after_body.html
