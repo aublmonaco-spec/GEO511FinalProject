@@ -2,7 +2,7 @@ project:
   type: website
   output-dir: .
 website:
-  title: "Shifts in the Ruby-Throated Hummingbird and the Cardinal Flower"
+  title: "Phenological Shifts in the Ruby-Throated Hummingbird and the Cardinal Flower"
   navbar:
     left:
       - href: index.qmd
