@@ -1,6 +1,6 @@
 project:
   type: website
-
+  output-dir: .
 website:
   title: "GEO511 Final Project"
   navbar:
