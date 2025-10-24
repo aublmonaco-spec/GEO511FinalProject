@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ---
 title: "Phenological Shifts in the Ruby-Throated Hummingbird and the Cardinal Flower"
 author: Aubrey Monaco
@@ -254,6 +253,3 @@ You can customize the appearance of your website by modifying the `_quarto.yml` 
 ### Getting Started
 
 To get started with this template, simply click the "Use this template" button at the top of the repository page to create a new repository based on this template. Then, clone your new repository to your local machine and start modifying the files to create your own quarto website.
-=======
-Hello
->>>>>>> dcddd55c34a9d6feb58ddfe215481b4166f1635b
