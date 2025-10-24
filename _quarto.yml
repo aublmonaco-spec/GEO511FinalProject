@@ -1,5 +1,6 @@
 project:
   type: website
+  output-dir: _site
 website:
   title: "Phenological Shifts in the Ruby-Throated Hummingbird and the Cardinal Flower"
   navbar:
