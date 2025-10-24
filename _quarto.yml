@@ -11,6 +11,6 @@ website:
 
 format:
   html:
-    theme: spacelab
+    theme: minty
     includes:
         after_body: include/after_body.html
